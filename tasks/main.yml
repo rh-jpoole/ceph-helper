@@ -85,6 +85,9 @@
       - /var/www/html/centos8
       - /var/www/html/kickstart
 
+  - name: Rsync the CentOS 8 repo
+    shell: "/usr/bin/rsync -avSHP --delete rsync://mirror.bytemark.co.uk/centos/8/BaseOS/x86_64/os/ /var/www/html/centos8"
+
   - name: Create kickstart file
     template:
       src: ../templates/kickstart.cfg.j2
@@ -128,6 +131,10 @@
 
   - name: Copy over files needed for TFTP
     shell: "cp -a /usr/share/syslinux/* /var/lib/tftpboot"
+  
+  - name: Rsync the CentOS 8 initrd and kernel
+    shell: "/usr/bin/rsync -avSHP --delete rsync://mirror.bytemark.co.uk/centos/8/BaseOS/x86_64/os/images/pxeboot/ /var/lib/tftpboot/centos"
+    notify: restart tftp
 
   - name: Generate pxe config files
     block:

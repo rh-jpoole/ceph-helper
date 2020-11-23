@@ -22,6 +22,7 @@
         - podman
         - nfs-utils
         - syslinux
+        - rsync
 
   - set_fact:
       dhcppkgs:
@@ -50,6 +51,7 @@
         - podman
         - nfs-utils
         - syslinux
+        - rsync
 
   - set_fact:
       dhcppkgs:
