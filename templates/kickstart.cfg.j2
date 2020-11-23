@@ -1,0 +1,50 @@
+#version=RHEL8
+ignoredisk --only-use=vda
+# Partition clearing information
+clearpart --all --initlabel
+# Reboot after installation
+reboot
+# Use text mode install
+text
+# Use url to install
+url --url=http://uk.mirrors.clouvider.net/CentOS/8.2.2004/BaseOS/x86_64/os/
+# Keyboard layouts
+keyboard --vckeymap=gb --xlayouts='gb'
+# System language
+lang en_GB.UTF-8
+
+# Network information
+network  --bootproto=dhcp --activate
+repo --name="AppStream" --baseurl=http://uk.mirrors.clouvider.net/CentOS/8/AppStream/x86_64/os/
+# Root password
+rootpw --plaintext "{{ rootpw }}"
+# Disable the Setup Agent on first boot
+firstboot --disable
+# Do not configure the X Window System
+skipx
+# System services
+services --enabled="chronyd"
+# System timezone
+timezone Europe/London --isUtc --ntpservers=0.centos.pool.ntp.org,1.centos.pool.ntp.org,2.centos.pool.ntp.org,3.centos.pool.ntp.org
+# Disk partitioning information
+autopart
+bootloader --location=mbr --append="rhgb quiet crashkernel=auto"
+zerombr
+selinux --enforcing
+firewall --enabled --ssh
+
+%packages
+@^minimal-environment
+kexec-tools
+
+%end
+
+%addon com_redhat_kdump --enable --reserve-mb='auto'
+
+%end
+
+%anaconda
+pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
+pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+%end

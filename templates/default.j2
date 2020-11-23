@@ -1,0 +1,9 @@
+default menu.c32   
+ prompt 0   
+ timeout 900
+ ONTIMEOUT   
+ menu title ######## PXE Boot Menu ########  
+ label 1  
+ menu label ^1) Install CentOS 8
+ kernel images/pxeboot/vmlinuz
+ append initrd=images/pxeboot/initrd.img ip=dhcp inst.repo=http://uk.mirrors.clouvider.net/CentOS/8/BaseOS/x86_64/os/ inst.ks=http://192.168.9.2/kickstart/kickstart.cfg
