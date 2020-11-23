@@ -87,7 +87,7 @@
 
   - name: Create kickstart file
     template:
-      src: templates/kickstart.cfg.j2
+      src: ../templates/kickstart.cfg.j2
       dest: /var/www/html/kickstart/kickstart.cfg
       mode: '0644'
 
@@ -117,12 +117,14 @@
     notify:
       - restart tftp
 
+  - name: generate netboot entry for grub2
+    shell: grub2-mknetdir --net-directory=/var/lib/tftpboot
+
   - name: Create TFTP CentOS dir
     file:
       path: /var/lib/tftpboot/centos
       state: directory
       mode: 0755
-    when: not staticips
 
   - name: Copy over files needed for TFTP
     shell: "cp -a /usr/share/syslinux/* /var/lib/tftpboot"
@@ -221,8 +223,8 @@
   - name: Setting DNS server ip on network interface "{{ dsname }}" to 127.0.0.1
     shell: 'nmcli con mod "{{ dsname }}" ipv4.dns 127.0.0.1'
 
-  - name: Setting DNS search path on network interface "{{ dsname }}" to "{{ dns.clusterid }}.{{ dns.domain | lower }}"
-    shell: 'nmcli con mod  "{{ dsname }}" ipv4.dns-search {{ dns.clusterid }}.{{ dns.domain | lower }}'
+  - name: Setting DNS search path on network interface "{{ dsname }}" to "{{ dns.domain | lower }}"
+    shell: 'nmcli con mod  "{{ dsname }}" ipv4.dns-search {{ dns.domain | lower }}'
 
   - name: Restarting NetworkManager
     service:

@@ -15,6 +15,7 @@ ports:
   - 20048/tcp
   - 50825/tcp
   - 53248/tcp
+disk: /dev/vda
 dns:
   domain: "example.com"
   forwarder: "192.168.1.1"
@@ -24,16 +25,16 @@ helper:
 ceph_hosts:
   - name: "ceph0"
     ipaddr: "192.168.9.11"
-    macaddr: ""
+    macaddr: "52:54:00:f0:9a:22"
   - name: "ceph1"
     ipaddr: "192.168.9.12"
-    macaddr: ""
+    macaddr: "52:54:00:fa:44:53"
   - name: "ceph2"
     ipaddr: "192.168.9.13"
-    macaddr: ""
+    macaddr: "52:54:00:3b:57:c3"
   - name: "ceph3"
     ipaddr: "192.168.9.14"
-    macaddr: ""
+    macaddr: "52:54:00:78:3c:a8"
 dhcp:
   router: "192.168.9.1"
   bcast: "192.168.9.255"

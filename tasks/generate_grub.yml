@@ -7,12 +7,11 @@
       default=0
       fallback=1
       timeout=1
-      menuentry "CoreOS (BIOS)" {
+      menuentry "CentOS 8" {
          echo "Loading kernel"
-         linux "/rhcos/kernel" ip=dhcp console=tty0 console=ttyS0 console=hvc0,115200n8 rd.neednet=1 coreos.inst=yes coreos.inst.install_dev={{ disk }} {{ coreos_inst_url }} coreos.inst.ignition_url=http://{{ helper.ipaddr }}:8080/ignition/{{ role }}.ign
-
+         linux "images/pxeboot/vmlinuz" ip=dhcp console=tty0 console=ttyS0 console=hvc0,115200n8 rd.neednet=1 inst.repo=http://uk.mirrors.clouvider.net/CentOS/8/BaseOS/x86_64/os/ inst.ks=http://192.168.9.2/kickstart/kickstart.cfg
          echo "Loading initrd"
-         initrd  "/rhcos/initramfs.img"
+         initrd  "images/pxeboot/initrd.img" 
       }
       fi
     dest: /var/lib/tftpboot/boot/grub2/grub.cfg
